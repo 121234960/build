@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Column, Beam & Slab/Footing Reinforcement Estimator</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 20px;
+      background-color: #f2f4f8;
+    }
+    h2 {
+      color: #003366;
+    }
+    label {
+      display: block;
+      margin-top: 10px;
+    }
+    input, select {
+      width: 200px;
+      padding: 5px;
+      margin-bottom: 10px;
+    }
+    #results {
+      margin-top: 20px;
+      padding: 10px;
+      background-color: #e6f0ff;
+      border-radius: 5px;
+    }
+  </style>
+</head>
+<body>
+  <h2>🧱 Column, Beam & Slab/Footing Reinforcement Estimator</h2>
+
+  <!-- COLUMN SECTION -->
+  <h3>🧱 Column Details</h3>
+  <label>Column Size (W x H mm)</label>
+  <input id="col_width" type="number" placeholder="Width (e.g., 230)" />
+  <input id="col_height_mm" type="number" placeholder="Height (e.g., 300)" />
+
+  <label>Column Height (meters)</label>
+  <input id="col_length" type="number" value="3" />
+
+  <label>Number of Columns</label>
+  <input id="col_count" type="number" value="6" />
+
+  <label>Bar Diameter (Main)</label>
+  <select id="main_dia">
+    <option value="12">12 mm</option>
+    <option value="16">16 mm</option>
+  </select>
+
+  <label>Main Bars per Column</label>
+  <input id="bars_per_col" type="number" value="4" />
+
+  <label>Stirrup Dia (mm)</label>
+  <select id="stirrup_dia">
+    <option value="8">8 mm</option>
+  </select>
+
+  <label>Stirrup Spacing (mm)</label>
+  <input id="stirrup_spacing" type="number" value="150" />
+
+  <label>Stirrup Size (W x H mm)</label>
+  <input id="stirrup_width" type="number" placeholder="Width (e.g., 230)" />
+  <input id="stirrup_height" type="number" placeholder="Height (e.g., 300)" />
+
+  <!-- BEAM SECTION -->
+  <h3>🧱 Beam Details</h3>
+  <label>Beam Length (meters)</label>
+  <input id="beam_length" type="number" value="4" />
+
+  <label>Number of Beams</label>
+  <input id="beam_count" type="number" value="4" />
+
+  <label>Top Bars (count × dia)</label>
+  <input id="beam_top_count" type="number" value="2" /> ×
+  <select id="beam_top_dia">
+    <option value="12">12 mm</option>
+    <option value="16">16 mm</option>
+  </select>
+
+  <label>Bottom Bars (count × dia)</label>
+  <input id="beam_bottom_count" type="number" value="2" /> ×
+  <select id="beam_bottom_dia">
+    <option value="12">12 mm</option>
+    <option value="16">16 mm</option>
+  </select>
+
+  <label>Stirrup Dia (mm)</label>
+  <select id="beam_stirrup_dia">
+    <option value="8">8 mm</option>
+  </select>
+
+  <label>Stirrup Spacing (mm)</label>
+  <input id="beam_stirrup_spacing" type="number" value="150" />
+
+  <label>Stirrup Size (W x H mm)</label>
+  <input id="beam_stirrup_width" type="number" placeholder="Width (e.g., 230)" />
+  <input id="beam_stirrup_height" type="number" placeholder="Height (e.g., 300)" />
+
+  <!-- SLAB / FOOTING SECTION -->
+  <h3>🧱 Slab or Footing Details</h3>
+  <label>Area (m²)</label>
+  <input id="slab_area" type="number" value="10" />
+
+  <label>Top Bar Dia (mm)</label>
+  <select id="slab_top_dia">
+    <option value="8">8 mm</option>
+    <option value="10">10 mm</option>
+    <option value="12">12 mm</option>
+  </select>
+
+  <label>Bottom Bar Dia (mm)</label>
+  <select id="slab_bottom_dia">
+    <option value="8">8 mm</option>
+    <option value="10">10 mm</option>
+    <option value="12">12 mm</option>
+  </select>
+
+  <label>Spacing (mm)</label>
+  <input id="slab_spacing" type="number" value="150" />
+
+  <!-- COST SETTINGS -->
+  <h3>💰 Cost Settings</h3>
+  <label>Steel Rate (LKR/kg)</label>
+  <input id="steel_rate" type="number" value="270" />
+
+  <label>Wastage (%)</label>
+  <input id="wastage" type="number" value="8" />
+
+  <button onclick="calculateSteel()">Calculate</button>
+
+  <div id="results">
+    <p><strong>Column Main Bar Weight:</strong> <span id="main_weight">-</span> kg</p>
+    <p><strong>Column Stirrup Weight:</strong> <span id="stirrup_weight">-</span> kg</p>
+    <p><strong>Beam Top/Bottom Bar Weight:</strong> <span id="beam_main_weight">-</span> kg</p>
+    <p><strong>Beam Stirrup Weight:</strong> <span id="beam_stirrup_weight">-</span> kg</p>
+    <p><strong>Slab/Footing Steel Weight:</strong> <span id="slab_weight">-</span> kg</p>
+    <p><strong>Total Steel (with wastage):</strong> <span id="total_steel">-</span> kg</p>
+    <p><strong>Total Cost:</strong> LKR <span id="total_cost">-</span></p>
+  </div>
+
+  <script>
+    const unitWeights = { 8: 0.395, 10: 0.617, 12: 0.888, 16: 1.58, 20: 2.47 };
+
+    function calculateSteel() {
+      let colLength = parseFloat(document.getElementById('col_length').value);
+      let colCount = parseInt(document.getElementById('col_count').value);
+      let barsPerCol = parseInt(document.getElementById('bars_per_col').value);
+      let mainDia = parseInt(document.getElementById('main_dia').value);
+      let stirrupDia = parseInt(document.getElementById('stirrup_dia').value);
+      let stirrupSpacing = parseInt(document.getElementById('stirrup_spacing').value);
+      let stirrupW = parseInt(document.getElementById('stirrup_width').value);
+      let stirrupH = parseInt(document.getElementById('stirrup_height').value);
+
+      let beamLen = parseFloat(document.getElementById('beam_length').value);
+      let beamCount = parseInt(document.getElementById('beam_count').value);
+      let beamTopCount = parseInt(document.getElementById('beam_top_count').value);
+      let beamTopDia = parseInt(document.getElementById('beam_top_dia').value);
+      let beamBottomCount = parseInt(document.getElementById('beam_bottom_count').value);
+      let beamBottomDia = parseInt(document.getElementById('beam_bottom_dia').value);
+      let beamStirrupDia = parseInt(document.getElementById('beam_stirrup_dia').value);
+      let beamStirrupSpacing = parseInt(document.getElementById('beam_stirrup_spacing').value);
+      let beamStirrupW = parseInt(document.getElementById('beam_stirrup_width').value);
+      let beamStirrupH = parseInt(document.getElementById('beam_stirrup_height').value);
+
+      let slabArea = parseFloat(document.getElementById('slab_area').value);
+      let slabTopDia = parseInt(document.getElementById('slab_top_dia').value);
+      let slabBottomDia = parseInt(document.getElementById('slab_bottom_dia').value);
+      let slabSpacing = parseInt(document.getElementById('slab_spacing').value);
+
+      let steelRate = parseFloat(document.getElementById('steel_rate').value);
+      let wastagePercent = parseFloat(document.getElementById('wastage').value);
+
+      // Column
+      let colMainLength = colLength * barsPerCol * colCount;
+      let colMainWeight = colMainLength * unitWeights[mainDia];
+      let colStirrupLength = 2 * (stirrupW + stirrupH) / 1000 * 1.05;
+      let colStirrupsPerCol = Math.ceil((colLength * 1000) / stirrupSpacing);
+      let totalColStirrups = colStirrupsPerCol * colCount;
+      let colStirrupWeight = totalColStirrups * colStirrupLength * unitWeights[stirrupDia];
+
+      // Beam
+      let beamMainLength = beamLen * (beamTopCount * unitWeights[beamTopDia] + beamBottomCount * unitWeights[beamBottomDia]) * beamCount;
+      let beamStirrupsPerBeam = Math.ceil((beamLen * 1000) / beamStirrupSpacing);
+      let beamStirrupLength = 2 * (beamStirrupW + beamStirrupH) / 1000 * 1.05;
+      let beamStirrupWeight = beamStirrupsPerBeam * beamStirrupLength * unitWeights[beamStirrupDia] * beamCount;
+
+      // Slab or Footing
+      let slabBarsPerSqm = 2 * 1000 / slabSpacing; // top + bottom per meter
+      let slabLength = slabBarsPerSqm * slabArea; // meter length of bar
+      let slabWeight = slabLength * (unitWeights[slabTopDia] + unitWeights[slabBottomDia]) / 2;
+
+      let totalSteel = (colMainWeight + colStirrupWeight + beamMainLength + beamStirrupWeight + slabWeight) * (1 + wastagePercent / 100);
+      let totalCost = totalSteel * steelRate;
+
+      document.getElementById('main_weight').innerText = colMainWeight.toFixed(2);
+      document.getElementById('stirrup_weight').innerText = colStirrupWeight.toFixed(2);
+      document.getElementById('beam_main_weight').innerText = beamMainLength.toFixed(2);
+      document.getElementById('beam_stirrup_weight').innerText = beamStirrupWeight.toFixed(2);
+      document.getElementById('slab_weight').innerText = slabWeight.toFixed(2);
+      document.getElementById('total_steel').innerText = totalSteel.toFixed(2);
+      document.getElementById('total_cost').innerText = totalCost.toFixed(2);
+    }
+  </script>
+</body>
+</html>

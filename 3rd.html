@@ -1,0 +1,794 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Advanced Construction Cost Estimator - Professional Edition</title>
+</head>
+<body>
+    <div align="center">
+        <h1>🏗️ ADVANCED CONSTRUCTION COST ESTIMATOR</h1>
+        <h2>Professional Edition - Single Story Basic (Foundation + Walls + Roof)</h2>
+        <p><strong>Standards:</strong> ICTAD | POMI | SLS 573 | IS Codes | International Standards Compatible</p>
+    </div>
+
+    <hr size="2" color="#333">
+
+    <!-- Project Information & Settings -->
+    <fieldset>
+        <legend><h3>📋 PROJECT INFORMATION & SETTINGS</h3></legend>
+        <table border="1" cellpadding="8" width="100%" bgcolor="#f9f9f9">
+            <tr>
+                <td width="25%"><strong>Project Name:</strong></td>
+                <td width="25%"><input type="text" id="projectName" placeholder="Enter project name" size="30"></td>
+                <td width="25%"><strong>Client Name:</strong></td>
+                <td width="25%"><input type="text" id="clientName" placeholder="Client name" size="30"></td>
+            </tr>
+            <tr>
+                <td><strong>Location:</strong></td>
+                <td><input type="text" id="location" placeholder="Project location" size="30"></td>
+                <td><strong>Date:</strong></td>
+                <td><input type="date" id="estimateDate"></td>
+            </tr>
+            <tr>
+                <td><strong>Estimator:</strong></td>
+                <td><input type="text" id="estimator" placeholder="Your name" size="30"></td>
+                <td><strong>Project Type:</strong></td>
+                <td>
+                    <select id="projectType">
+                        <option value="residential">Residential</option>
+                        <option value="commercial">Commercial</option>
+                        <option value="industrial">Industrial</option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td><strong>Unit System:</strong></td>
+                <td>
+                    <input type="radio" name="units" value="meters" id="meters" checked>
+                    <label for="meters">Metric (m)</label>
+                    <input type="radio" name="units" value="feet" id="feet">
+                    <label for="feet">Imperial (ft)</label>
+                </td>
+                <td><strong>Currency:</strong></td>
+                <td>
+                    <select id="currency">
+                        <option value="LKR">Sri Lankan Rupees (LKR)</option>
+                        <option value="USD">US Dollars (USD)</option>
+                        <option value="INR">Indian Rupees (INR)</option>
+                        <option value="GBP">British Pounds (GBP)</option>
+                        <option value="EUR">Euros (EUR)</option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td><strong>Quality Grade:</strong></td>
+                <td>
+                    <select id="qualityGrade">
+                        <option value="economy">Economy (0.85x)</option>
+                        <option value="standard" selected>Standard (1.0x)</option>
+                        <option value="premium">Premium (1.3x)</option>
+                        <option value="luxury">Luxury (1.6x)</option>
+                    </select>
+                </td>
+                <td><strong>Labor Cost Factor:</strong></td>
+                <td>
+                    <select id="laborFactor">
+                        <option value="0.4">Low Cost Area (40%)</option>
+                        <option value="0.5" selected>Average Area (50%)</option>
+                        <option value="0.6">High Cost Area (60%)</option>
+                        <option value="0.7">Metro Area (70%)</option>
+                    </select>
+                </td>
+            </tr>
+        </table>
+    </fieldset>
+
+    <hr size="2" color="#333">
+
+    <!-- Site Conditions & Factors -->
+    <fieldset>
+        <legend><h3>🌍 SITE CONDITIONS & FACTORS</h3></legend>
+        <table border="1" cellpadding="8" width="100%" bgcolor="#f9f9f9">
+            <tr>
+                <td width="25%"><strong>Site Access:</strong></td>
+                <td width="25%">
+                    <select id="siteAccess">
+                        <option value="1.0">Good Access (No extra cost)</option>
+                        <option value="1.05">Moderate Access (+5%)</option>
+                        <option value="1.15">Difficult Access (+15%)</option>
+                        <option value="1.25">Very Difficult (+25%)</option>
+                    </select>
+                </td>
+                <td width="25%"><strong>Soil Condition:</strong></td>
+                <td width="25%">
+                    <select id="soilCondition">
+                        <option value="good">Good Bearing Soil</option>
+                        <option value="average" selected>Average Soil</option>
+                        <option value="poor">Poor/Soft Soil (+20%)</option>
+                        <option value="rock">Rocky Soil (+30%)</option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td><strong>Water Table:</strong></td>
+                <td>
+                    <select id="waterTable">
+                        <option value="1.0">Deep (>3m)</option>
+                        <option value="1.1" selected>Moderate (1-3m)</option>
+                        <option value="1.2">Shallow (<1m)</option>
+                    </select>
+                </td>
+                <td><strong>Transportation:</strong></td>
+                <td>
+                    <select id="transportation">
+                        <option value="1.0">Local Materials</option>
+                        <option value="1.05" selected>Within 25km (+5%)</option>
+                        <option value="1.15">25-100km (+15%)</option>
+                        <option value="1.25">Over 100km (+25%)</option>
+                    </select>
+                </td>
+            </tr>
+        </table>
+    </fieldset>
+
+    <hr size="2" color="#333">
+
+    <!-- Advanced Foundation Section -->
+    <fieldset>
+        <legend><h3>🏗️ FOUNDATION SECTION - ADVANCED</h3></legend>
+        <table border="1" cellpadding="8" width="100%" bgcolor="#f9f9f9">
+            <tr>
+                <td width="20%"><strong>Foundation Type:</strong></td>
+                <td width="20%">
+                    <select id="foundationType">
+                        <option value="strip">Strip Foundation</option>
+                        <option value="pad">Pad Foundation</option>
+                        <option value="raft">Raft Foundation</option>
+                        <option value="pile">Pile Foundation</option>
+                    </select>
+                </td>
+                <td width="20%"><strong>Foundation Grade:</strong></td>
+                <td width="20%">
+                    <select id="foundationGrade">
+                        <option value="M15">M15 (1:2:4)</option>
+                        <option value="M20" selected>M20 (1:1.5:3)</option>
+                        <option value="M25">M25 (1:1:2)</option>
+                    </select>
+                </td>
+                <td width="20%"><strong>Excavation Type:</strong>
+                    <select>
+                        <option>Manual</option>
+                        <option>Mechanical</option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td><strong>Length <span>(m)</span>:</strong></td>
+                <td><input type="number" id="foundationLength" value="40" min="1" step="0.1"></td>
+                <td><strong>Width <span>(m)</span>:</strong></td>
+                <td><input type="number" id="foundationWidth" value="1.2" min="0.1" step="0.1"></td>
+                <td><strong>Depth <span>(m)</span>:</strong>
+                    <input type="number" id="foundationDepth" value="1.0" min="0.1" step="0.1">
+                </td>
+            </tr>
+            <tr>
+                <td><strong>Reinforcement:</strong></td>
+                <td>
+                    <select id="reinforcementType">
+                        <option value="light">Light (80kg/m³)</option>
+                        <option value="medium" selected>Medium (100kg/m³)</option>
+                        <option value="heavy">Heavy (120kg/m³)</option>
+                    </select>
+                </td>
+                <td><strong>Extra Depth:</strong></td>
+                <td><input type="number" id="extraDepth" value="0.15" min="0" step="0.05"> m</td>
+                <td><strong>Waterproofing:</strong>
+                    <select>
+                        <option>None</option>
+                        <option>Basic</option>
+                        <option>Advanced</option>
+                    </select>
+                </td>
+            </tr>
+            <tr bgcolor="#e0e0e0">
+                <td><strong>Concrete Volume:</strong></td>
+                <td>48.00 m³</td>
+                <td><strong>Excavation Volume:</strong></td>
+                <td>55.20 m³</td>
+                <td><strong>Backfill Volume:</strong> 7.20 m³</td>
+            </tr>
+        </table>
+
+        <!-- Foundation Materials Detail -->
+        <h4>Foundation Materials Breakdown:</h4>
+        <table border="1" cellpadding="5" width="100%">
+            <tr bgcolor="#d0d0d0">
+                <th>Item</th>
+                <th>Quantity</th>
+                <th>Unit</th>
+                <th>Rate</th>
+                <th>Amount</th>
+                <th>Labor</th>
+                <th>Total</th>
+            </tr>
+            <tr>
+                <td>Excavation</td>
+                <td>55.20</td>
+                <td>m³</td>
+                <td><input type="number" value="800"></td>
+                <td>44,160</td>
+                <td>22,080</td>
+                <td>66,240</td>
+            </tr>
+            <tr>
+                <td>Concrete M20</td>
+                <td>48.00</td>
+                <td>m³</td>
+                <td><input type="number" value="12000"></td>
+                <td>576,000</td>
+                <td>288,000</td>
+                <td>864,000</td>
+            </tr>
+            <tr>
+                <td>Steel Reinforcement</td>
+                <td>4800</td>
+                <td>kg</td>
+                <td><input type="number" value="350"></td>
+                <td>1,680,000</td>
+                <td>840,000</td>
+                <td>2,520,000</td>
+            </tr>
+            <tr>
+                <td>Formwork</td>
+                <td>160</td>
+                <td>m²</td>
+                <td><input type="number" value="800"></td>
+                <td>128,000</td>
+                <td>64,000</td>
+                <td>192,000</td>
+            </tr>
+            <tr>
+                <td>Backfilling</td>
+                <td>7.20</td>
+                <td>m³</td>
+                <td><input type="number" value="600"></td>
+                <td>4,320</td>
+                <td>2,160</td>
+                <td>6,480</td>
+            </tr>
+            <tr bgcolor="#ffffcc">
+                <td colspan="6"><strong>FOUNDATION SUBTOTAL:</strong></td>
+                <td><strong>3,648,720</strong></td>
+            </tr>
+        </table>
+    </fieldset>
+
+    <hr size="2" color="#333">
+
+    <!-- Advanced Wall Section -->
+    <fieldset>
+        <legend><h3>🧱 WALL SECTION - ADVANCED</h3></legend>
+        <table border="1" cellpadding="8" width="100%" bgcolor="#f9f9f9">
+            <tr>
+                <td width="20%"><strong>Wall Type:</strong></td>
+                <td width="20%">
+                    <select id="wallType">
+                        <option value="brick">Clay Brick</option>
+                        <option value="block" selected>Concrete Block</option>
+                        <option value="cabook">Cabook Block</option>
+                        <option value="stone">Stone Masonry</option>
+                    </select>
+                </td>
+                <td width="20%"><strong>Wall Thickness:</strong></td>
+                <td width="20%">
+                    <select id="wallThickness">
+                        <option value="0.115">115mm (4.5")</option>
+                        <option value="0.200">200mm (8")</option>
+                        <option value="0.230" selected>230mm (9")</option>
+                        <option value="0.300">300mm (12")</option>
+                    </select>
+                </td>
+                <td width="20%"><strong>Mortar Grade:</strong>
+                    <select>
+                        <option>1:6 (Economy)</option>
+                        <option selected>1:4 (Standard)</option>
+                        <option>1:3 (Strong)</option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td><strong>External Wall Length <span>(m)</span>:</strong></td>
+                <td><input type="number" id="extWallLength" value="32" min="1" step="0.1"></td>
+                <td><strong>Internal Wall Length <span>(m)</span>:</strong></td>
+                <td><input type="number" id="intWallLength" value="20" min="0" step="0.1"></td>
+                <td><strong>Wall Height <span>(m)</span>:</strong>
+                    <input type="number" id="wallHeight" value="3.0" min="1" step="0.1">
+                </td>
+            </tr>
+            <tr>
+                <td><strong>Plinth Height <span>(m)</span>:</strong></td>
+                <td><input type="number" id="plinthHeight" value="0.6" min="0" step="0.1"></td>
+                <td><strong>Door Area <span>(m²)</span>:</strong></td>
+                <td><input type="number" id="doorArea" value="12" min="0" step="0.1"></td>
+                <td><strong>Window Area <span>(m²)</span>:</strong>
+                    <input type="number" id="windowArea" value="15" min="0" step="0.1">
+                </td>
+            </tr>
+            <tr>
+                <td><strong>Plastering:</strong></td>
+                <td>
+                    <select>
+                        <option>No Plaster</option>
+                        <option>Internal Only</option>
+                        <option selected>Both Sides</option>
+                    </select>
+                </td>
+                <td><strong>Lintels:</strong></td>
+                <td>
+                    <select>
+                        <option>Concrete</option>
+                        <option>Steel</option>
+                        <option selected>Wood</option>
+                    </select>
+                </td>
+                <td><strong>Insulation:</strong>
+                    <select>
+                        <option>None</option>
+                        <option>Basic</option>
+                        <option>Advanced</option>
+                    </select>
+                </td>
+            </tr>
+            <tr bgcolor="#e0e0e0">
+                <td><strong>Total Wall Area:</strong> 156.00 m²</td>
+                <td><strong>Net Wall Area:</strong> 129.00 m²</td>
+                <td><strong>Plaster Area:</strong> 258.00 m²</td>
+                <td colspan="2"><strong>Block/Brick Count:</strong> 6450 units</td>
+            </tr>
+        </table>
+
+        <!-- Wall Materials Detail -->
+        <h4>Wall Materials Breakdown:</h4>
+        <table border="1" cellpadding="5" width="100%">
+            <tr bgcolor="#d0d0d0">
+                <th>Item</th>
+                <th>Quantity</th>
+                <th>Unit</th>
+                <th>Rate</th>
+                <th>Amount</th>
+                <th>Labor</th>
+                <th>Total</th>
+            </tr>
+            <tr>
+                <td>Blocks/Bricks</td>
+                <td>6450</td>
+                <td>nos</td>
+                <td><input type="number" value="60"></td>
+                <td>387,000</td>
+                <td>193,500</td>
+                <td>580,500</td>
+            </tr>
+            <tr>
+                <td>Mortar Cement</td>
+                <td>52</td>
+                <td>bags</td>
+                <td><input type="number" value="2000"></td>
+                <td>104,000</td>
+                <td>52,000</td>
+                <td>156,000</td>
+            </tr>
+            <tr>
+                <td>Mortar Sand</td>
+                <td>7.5</td>
+                <td>m³</td>
+                <td><input type="number" value="7500"></td>
+                <td>56,250</td>
+                <td>28,125</td>
+                <td>84,375</td>
+            </tr>
+            <tr>
+                <td>Plaster Cement</td>
+                <td>77</td>
+                <td>bags</td>
+                <td>2000</td>
+                <td>154,000</td>
+                <td>77,000</td>
+                <td>231,000</td>
+            </tr>
+            <tr>
+                <td>Plaster Sand</td>
+                <td>6.2</td>
+                <td>m³</td>
+                <td>7500</td>
+                <td>46,500</td>
+                <td>23,250</td>
+                <td>69,750</td>
+            </tr>
+            <tr bgcolor="#ffffcc">
+                <td colspan="6"><strong>WALL SUBTOTAL:</strong></td>
+                <td><strong>1,121,625</strong></td>
+            </tr>
+        </table>
+    </fieldset>
+
+    <hr size="2" color="#333">
+
+    <!-- Advanced Roof Section -->
+    <fieldset>
+        <legend><h3>🏠 ROOF SECTION - ADVANCED</h3></legend>
+        <table border="1" cellpadding="8" width="100%" bgcolor="#f9f9f9">
+            <tr>
+                <td width="20%"><strong>Roof Structure:</strong></td>
+                <td width="20%">
+                    <select id="roofStructure">
+                        <option value="timber" selected>Timber Truss</option>
+                        <option value="steel">Steel Truss</option>
+                        <option value="concrete">RCC Slab</option>
+                        <option value="precast">Precast Slab</option>
+                    </select>
+                </td>
+                <td width="20%"><strong>Roof Covering:</strong></td>
+                <td width="20%">
+                    <select id="roofCovering">
+                        <option value="tile">Clay Tiles</option>
+                        <option value="concrete_tile">Concrete Tiles</option>
+                        <option value="asbestos" selected>Asbestos Sheet</option>
+                        <option value="gi">GI Sheet</option>
+                        <option value="aluminum">Aluminum Sheet</option>
+                    </select>
+                </td>
+                <td width="20%"><strong>Insulation:</strong>
+                    <select>
+                        <option selected>No Insulation</option>
+                        <option>Basic (Reflective)</option>
+                        <option>Advanced (Foam)</option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td><strong>Building Length <span>(m)</span>:</strong></td>
+                <td><input type="number" id="buildingLength" value="12" min="1" step="0.1"></td>
+                <td><strong>Building Width <span>(m)</span>:</strong></td>
+                <td><input type="number" id="buildingWidth" value="8" min="1" step="0.1"></td>
+                <td><strong>Overhang <span>(m)</span>:</strong>
+                    <input type="number" id="overhang" value="0.6" min="0" step="0.1">
+                </td>
+            </tr>
+            <tr>
+                <td><strong>Roof Pitch:</strong></td>
+                <td>
+                    <select id="roofPitch">
+                        <option value="1.05">5° (1.05 factor)</option>
+                        <option value="1.15">15° (1.15 factor)</option>
+                        <option value="1.25" selected>25° (1.25 factor)</option>
+                        <option value="1.35">35° (1.35 factor)</option>
+                    </select>
+                </td>
+                <td><strong>Gutter Type:</strong></td>
+                <td>
+                    <select id="gutterType">
+                        <option value="none">No Gutter</option>
+                        <option value="pvc" selected>PVC Gutter</option>
+                        <option value="aluminum">Aluminum Gutter</option>
+                        <option value="concrete">Concrete Gutter</option>
+                    </select>
+                </td>
+                <td><strong>Ceiling:</strong>
+                    <select>
+                        <option selected>No Ceiling</option>
+                        <option>Gypsum Board</option>
+                        <option>PVC Ceiling</option>
+                        <option>Timber Ceiling</option>
+                    </select>
+                </td>
+            </tr>
+            <tr bgcolor="#e0e0e0">
+                <td><strong>Roof Area:</strong> 140.6 m²</td>
+                <td><strong>Ceiling Area:</strong> 96.0 m²</td>
+                <td><strong>Gutter Length:</strong> 40 m</td>
+                <td><strong>Ridge Length:</strong> 12.0 m</td>
+                <td><strong>Timber Volume:</strong> 2.8 m³</td>
+            </tr>
+        </table>
+
+        <!-- Roof Materials Detail -->
+        <h4>Roof Materials Breakdown:</h4>
+        <table border="1" cellpadding="5" width="100%">
+            <tr bgcolor="#d0d0d0">
+                <th>Item</th>
+                <th>Quantity</th>
+                <th>Unit</th>
+                <th>Rate</th>
+                <th>Amount</th>
+                <th>Labor</th>
+                <th>Total</th>
+            </tr>
+            <tr>
+                <td>Timber Structure</td>
+                <td>2.8</td>
+                <td>m³</td>
+                <td><input type="number" value="85000"></td>
+                <td>238,000</td>
+                <td>119,000</td>
+                <td>357,000</td>
+            </tr>
+            <tr>
+                <td>Roof Covering</td>
+                <td>141</td>
+                <td>m²</td>
+                <td><input type="number" value="1800"></td>
+                <td>253,800</td>
+                <td>126,900</td>
+                <td>380,700</td>
+            </tr>
+            <tr>
+                <td>Ridge/Hip Tiles</td>
+                <td>12</td>
+                <td>m</td>
+                <td><input type="number" value="800"></td>
+                <td>9,600</td>
+                <td>4,800</td>
+                <td>14,400</td>
+            </tr>
+            <tr>
+                <td>Gutters</td>
+                <td>40</td>
+                <td>m</td>
+                <td><input type="number" value="1200"></td>
+                <td>48,000</td>
+                <td>24,000</td>
+                <td>72,000</td>
+            </tr>
+            <tr>
+                <td>Ceiling (if selected)</td>
+                <td>0</td>
+                <td>m²</td>
+                <td><input type="number" value="2500"></td>
+                <td>0</td>
+                <td>0</td>
+                <td>0</td>
+            </tr>
+            <tr bgcolor="#ffffcc">
+                <td colspan="6"><strong>ROOF SUBTOTAL:</strong></td>
+                <td><strong>824,100</strong></td>
+            </tr>
+        </table>
+    </fieldset>
+
+    <hr size="2" color="#333">
+
+    <!-- Additional Work Sections -->
+    <fieldset>
+        <legend><h3>⚡ ELECTRICAL & PLUMBING WORK</h3></legend>
+        <table border="1" cellpadding="8" width="100%" bgcolor="#f9f9f9">
+            <tr>
+                <td width="25%"><strong>Electrical Work:</strong></td>
+                <td width="25%">
+                    <select>
+                        <option>No Electrical</option>
+                        <option>Basic (₹150/sq.ft)</option>
+                        <option selected>Standard (₹250/sq.ft)</option>
+                        <option>Premium (₹400/sq.ft)</option>
+                    </select>
+                </td>
+                <td width="25%"><strong>Plumbing Work:</strong></td>
+                <td width="25%">
+                    <select>
+                        <option>No Plumbing</option>
+                        <option>Basic (₹100/sq.ft)</option>
+                        <option selected>Standard (₹180/sq.ft)</option>
+                        <option>Premium (₹300/sq.ft)</option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td><strong>Sanitary Fixtures:</strong></td>
+                <td>
+                    <select>
+                        <option>No Fixtures</option>
+                        <option>Basic Set (₹25,000)</option>
+                        <option selected>Standard Set (₹45,000)</option>
+                        <option>Premium Set (₹80,000)</option>
+                    </select>
+                </td>
+                <td><strong>Painting Work:</strong></td>
+                <td>
+                    <select>
+                        <option>No Painting</option>
+                        <option>Basic (₹25/sq.ft)</option>
+                        <option selected>Standard (₹40/sq.ft)</option>
+                        <option>Premium (₹65/sq.ft)</option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td><strong>HVAC System:</strong></td>
+                <td>
+                    <select>
+                        <option selected>None</option>
+                        <option>Basic Split AC</option>
+                        <option>Central AC</option>
+                        <option>Ducted System</option>
+                    </select>
+                </td>
+                <td><strong>Landscaping:</strong></td>
+                <td>
+                    <select>
+                        <option selected>None</option>
+                        <option>Basic</option>
+                        <option>Standard</option>
+                        <option>Premium</option>
+                    </select>
+                </td>
+            </tr>
+            <tr bgcolor="#e0e0e0">
+                <td><strong>Electrical Cost:</strong> 24,000</td>
+                <td><strong>Plumbing Cost:</strong> 17,280</td>
+                <td><strong>Sanitary Cost:</strong> 45,000</td>
+                <td><strong>Painting Cost:</strong> 15,360</td>
+            </tr>
+        </table>
+    </fieldset>
+
+    <hr size="2" color="#333">
+
+    <!-- Cost Summary & Analysis -->
+    <fieldset>
+        <legend><h3>💰 COMPREHENSIVE COST ANALYSIS</h3></legend>
+        <table border="2" cellpadding="10" width="100%" bgcolor="#f0f8ff">
+            <tr bgcolor="#d0e0f0">
+                <th width="50%">COST CATEGORY</th>
+                <th width="25%">AMOUNT</th>
+                <th width="25%">PERCENTAGE</th>
+            </tr>
+            <tr>
+                <td>Foundation Construction</td>
+                <td align="right">3,648,720</td>
+                <td align="right">45.2%</td>
+            </tr>
+            <tr>
+                <td>Wall Construction</td>
+                <td align="right">1,121,625</td>
+                <td align="right">13.9%</td>
+            </tr>
+            <tr>
+                <td>Roof Construction</td>
+                <td align="right">824,100</td>
+                <td align="right">10.2%</td>
+            </tr>
+            <tr>
+                <td>Electrical & Plumbing</td>
+                <td align="right">101,640</td>
+                <td align="right">1.3%</td>
+            </tr>
+            <tr bgcolor="#e0f0e0">
+                <td><strong>Subtotal (Construction)</strong></td>
+                <td align="right"><strong>5,696,085</strong></td>
+                <td align="right"><strong>70.6%</strong></td>
+            </tr>
+            <tr>
+                <td>Contingency (10%)</td>
+                <td align="right">569,609</td>
+                <td align="right">7.0%</td>
+            </tr>
+            <tr>
+                <td>Overheads (5%)</td>
+                <td align="right">284,804</td>
+                <td align="right">3.5%</td>
+            </tr>
+            <tr>
+                <td>Professional Fees (8%)</td>
+                <td align="right">455,687</td>
+                <td align="right">5.6%</td>
+            </tr>
+            <tr>
+                <td>Taxes (15%)</td>
+                <td align="right">854,413</td>
+                <td align="right">10.6%</td>
+            </tr>
+            <tr bgcolor="#ffffcc">
+                <td><strong>TOTAL PROJECT COST</strong></td>
+                <td align="right"><strong>7,860,598</strong></td>
+                <td align="right"><strong>100.0%</strong></td>
+            </tr>
+        </table>
+        
+        <table width="100%" cellpadding="10">
+            <tr>
+                <td width="50%">
+                    <h4>Cost Distribution:</h4>
+                    <table border="1" cellpadding="5" width="100%">
+                        <tr>
+                            <td bgcolor="#ff9999" width="45%">Foundation</td>
+                            <td>45.2%</td>
+                        </tr>
+                        <tr>
+                            <td bgcolor="#99ff99" width="14%">Walls</td>
+                            <td>13.9%</td>
+                        </tr>
+                        <tr>
+                            <td bgcolor="#9999ff" width="10%">Roof</td>
+                            <td>10.2%</td>
+                        </tr>
+                        <tr>
+                            <td bgcolor="#ffff99" width="1%">MEP</td>
+                            <td>1.3%</td>
+                        </tr>
+                        <tr>
+                            <td bgcolor="#ffcc99" width="7%">Contingency</td>
+                            <td>7.0%</td>
+                        </tr>
+                        <tr>
+                            <td bgcolor="#cc99ff" width="4%">Overheads</td>
+                            <td>3.5%</td>
+                        </tr>
+                        <tr>
+                            <td bgcolor="#99ffff" width="6%">Fees</td>
+                            <td>5.6%</td>
+                        </tr>
+                        <tr>
+                            <td bgcolor="#cccccc" width="11%">Taxes</td>
+                            <td>10.6%</td>
+                        </tr>
+                    </table>
+                </td>
+                <td width="50%">
+                    <h4>Project Information:</h4>
+                    <table border="1" cellpadding="8" width="100%">
+                        <tr>
+                            <td><strong>Project Name:</strong></td>
+                            <td>Residence Construction</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Client:</strong></td>
+                            <td>Mr. John Smith</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Location:</strong></td>
+                            <td>Colombo, Sri Lanka</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Date:</strong></td>
+                            <td>2025-06-18</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Total Area:</strong></td>
+                            <td>320 m²</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Cost per m²:</strong></td>
+                            <td>24,564 LKR</td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+        </table>
+    </fieldset>
+
+    <hr size="2" color="#333">
+
+    <!-- Final Actions -->
+    <table width="100%" cellpadding="10">
+        <tr>
+            <td align="center">
+                <button style="padding:10px 20px;background:#4CAF50;color:white;border:none;font-size:16px;">
+                    SAVE ESTIMATE
+                </button>
+                <button style="padding:10px 20px;background:#2196F3;color:white;border:none;font-size:16px;">
+                    PRINT ESTIMATE
+                </button>
+                <button style="padding:10px 20px;background:#f44336;color:white;border:none;font-size:16px;">
+                    EXPORT TO EXCEL
+                </button>
+            </td>
+        </tr>
+        <tr>
+            <td align="center">
+                <p>This estimate is valid for 30 days from the date of issue. Prices subject to change based on market conditions.</p>
+                <p>© 2025 Advanced Construction Cost Estimator - Professional Edition</p>
+            </td>
+        </tr>
+    </table>
+</body>
+</html>
